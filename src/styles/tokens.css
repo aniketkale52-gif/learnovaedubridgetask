@@ -1,0 +1,110 @@
+/* Copied from design/tokens.css (generated from design/ds/project/tokens.json). Only change: the Google Fonts @import is dropped; fonts load from @fontsource in index.css. */
+/* Learnova · Glass tokens (dark-first) — generated from design/ds/project/tokens.json. Edit that file, not this one.
+   Color names follow shadcn/ui. Light theme: data-theme="light" or class "light". */
+
+:root, [data-theme="dark"], .dark {
+  --background: #0b0807;
+  --foreground: #f5efe9;
+  --card: rgba(32, 22, 18, 0.46);
+  --card-solid: #1a1311;
+  --primary: #ff7a3d;
+  --primary-foreground: #1a0c05;
+  --primary-strong: #ffa274;
+  --accent: rgba(255, 122, 61, 0.15);
+  --glow: rgba(255, 122, 61, 0.55);
+  --glow-gold: rgba(242, 184, 75, 0.45);
+  --secondary: rgba(255, 236, 222, 0.07);
+  --muted-foreground: #b0a59c;
+  --border: rgba(255, 236, 222, 0.13);
+  --border-strong: rgba(255, 236, 222, 0.32);
+  --border-soft: rgba(255, 236, 222, 0.07);
+  --ring: #ffa274;
+  --success: #5fd38d;
+  --success-foreground: #0e0b0a;
+  --success-soft: rgba(95, 211, 141, 0.12);
+  --destructive: #ff6b85;
+  --destructive-foreground: #0e0b0a;
+  --destructive-strong: #ff8a9e;
+  --destructive-soft: rgba(255, 107, 133, 0.12);
+  --xp: #f2b84b;
+  --xp-foreground: #1a0f0c;
+  --xp-text: #f6c96e;
+  --xp-soft: rgba(242, 184, 75, 0.12);
+  --locked: rgba(255, 244, 236, 0.03);
+  --locked-foreground: #a39890;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 244, 236, 0.06);
+  --shadow-card-hover: 0 12px 30px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(255, 236, 222, 0.16), 0 0 24px rgba(255, 122, 61, 0.10);
+  --shadow-popover: 0 20px 50px rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+:root {
+  --font-display: Outfit, ui-sans-serif, system-ui, sans-serif;
+  --font-body: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 999px;
+  --dur-instant: 100ms;
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
+  --dur-page: 500ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --blur-glass: 28px;
+  --blur-strong: 40px;
+}
+
+[data-theme="light"], .light {
+  --background: #efe9e3;
+  --foreground: #141414;
+  --card: rgba(255, 255, 255, 0.55);
+  --card-solid: #ffffff;
+  --primary: #ff7a3d;
+  --primary-foreground: #1a0c05;
+  --primary-strong: #a8431a;
+  --accent: rgba(255, 122, 61, 0.14);
+  --glow: rgba(255, 122, 61, 0.32);
+  --glow-gold: rgba(242, 184, 75, 0.28);
+  --secondary: rgba(40, 24, 16, 0.05);
+  --muted-foreground: #5c534d;
+  --border: rgba(255, 255, 255, 0.75);
+  --border-strong: rgba(40, 24, 16, 0.28);
+  --border-soft: rgba(40, 24, 16, 0.07);
+  --ring: #a8431a;
+  --success: #1a6b3c;
+  --success-foreground: #ffffff;
+  --success-soft: rgba(31, 122, 69, 0.10);
+  --destructive: #c42847;
+  --destructive-foreground: #ffffff;
+  --destructive-strong: #b3263e;
+  --destructive-soft: rgba(196, 40, 71, 0.10);
+  --xp: #f2b84b;
+  --xp-foreground: #1a0f0c;
+  --xp-text: #8a5a00;
+  --xp-soft: rgba(242, 184, 75, 0.18);
+  --locked: rgba(20, 20, 20, 0.04);
+  --locked-foreground: #5c534d;
+  --shadow-sm: 0 1px 2px rgba(20, 20, 20, 0.08);
+  --shadow-card: 0 8px 24px rgba(20, 20, 20, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --shadow-card-hover: 0 10px 24px rgba(20, 20, 20, 0.10), 0 0 20px rgba(255, 122, 61, 0.08);
+  --shadow-popover: 0 12px 32px rgba(20, 20, 20, 0.16);
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-instant: 0ms; --dur-fast: 0ms; --dur-base: 0ms; --dur-slow: 0ms; --dur-page: 0ms; }
+}

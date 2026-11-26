@@ -1,0 +1,60 @@
+/* Interaction polish on the DS motion tokens (Magic UI patterns: blur-fade entrances, shiny button, animated
+   theme toggler, sliding tabs). The bundle's reduced-motion query turns all of it off.
+   Entrances animate each glass panel itself, never a wrapper: opacity on an ancestor would cut the panel's
+   backdrop blur off from the page glow until the animation ends. */
+
+/* ---------- Page entrance: panels rise in, one after another ---------- */
+@keyframes rise-in { from { opacity: 0; transform: translateY(14px) scale(0.985); } }
+.dash > .mainnav, .dash__mhead, .dash__top, .hero, .quick > *, .courses, .dash__pair > *, .dash__aside > *,
+.side-layout .sidebar, .side-layout__main > header, .mod-crumbs, .mod-head, .mod-list, .mod-lessons > .row-between, .mod-lessons__list > li > :not(.mod-lessons__flip), .empty, .how > *,
+.subject__bar, .subject__main > *, .toolrail,
+.lesson__article > *, .steps, .retry__col > * {
+  animation: rise-in var(--dur-page) var(--ease-out) backwards;
+}
+.hero, .mod-head, .side-layout__main > header, .subject__main > :nth-child(1), .lesson__article > :nth-child(2) { animation-delay: 60ms; }
+.quick > :nth-child(1), .dash__aside > :nth-child(1), .mod-list, .empty, .subject__main > :nth-child(2), .lesson__article > :nth-child(3), .retry__col > :nth-child(2) { animation-delay: 120ms; }
+.quick > :nth-child(2), .mod-lessons > .row-between, .how > :nth-child(1), .lesson__article > :nth-child(4), .retry__col > :nth-child(3) { animation-delay: 160ms; }
+.quick > :nth-child(3), .courses, .dash__aside > :nth-child(2), .subject__main > :nth-child(3), .how > :nth-child(2), .steps, .retry__col > :nth-child(4) { animation-delay: 200ms; }
+.quick > :nth-child(4), .how > :nth-child(3), .lesson__article > :nth-child(5), .retry__col > :nth-child(5) { animation-delay: 240ms; }
+.dash__pair > * { animation-delay: 280ms; }
+.mod-lessons__list > li:nth-child(1) > * { animation-delay: 200ms; }
+.mod-lessons__list > li:nth-child(2) > * { animation-delay: 240ms; }
+.mod-lessons__list > li:nth-child(3) > * { animation-delay: 280ms; }
+.mod-lessons__list > li:nth-child(4) > * { animation-delay: 320ms; }
+.mod-lessons__list > li:nth-child(5) > * { animation-delay: 360ms; }
+.mod-lessons__list > li:nth-child(6) > * { animation-delay: 400ms; }
+
+/* Side panels and the outline slide in from their edge; a new tab replays it */
+@keyframes panel-in { from { opacity: 0; transform: translateX(var(--dx, 14px)); } }
+.panel { animation: panel-in var(--dur-slow) var(--ease-out); }
+.outline, .outline-rail { --dx: -14px; animation: panel-in var(--dur-slow) var(--ease-out); }
+
+/* Study chart: bars grow from the baseline (delay per bar is inline) */
+@keyframes bar-grow { from { transform: scaleY(0); } }
+.study__bar { transform-origin: 50% 100%; animation: bar-grow var(--dur-page) var(--ease-out) backwards; }
+
+/* ---------- Shiny primary button: a light sweeps across on hover ---------- */
+.ln-btn:not(.ln-btn--secondary):not(.ln-btn--ghost):not(.ln-btn--ink) { position: relative; overflow: hidden; isolation: isolate; }
+.ln-btn:not(.ln-btn--secondary):not(.ln-btn--ghost):not(.ln-btn--ink)::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; transform: translateX(-110%);
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%); }
+.ln-btn:not(.ln-btn--secondary):not(.ln-btn--ghost):not(.ln-btn--ink):not(:disabled):hover::after { transform: translateX(110%); transition: transform 750ms var(--ease-out); }
+
+/* ---------- Press feedback on everything clickable ---------- */
+.ln-iconbtn, .seg button, .chapters__item, .outline__item, .toolrail button, .recs__item, .player__row button, .flow__box, .bst__slot {
+  transition: transform var(--dur-instant) var(--ease-out), background-color var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast), box-shadow var(--dur-fast); }
+.ln-iconbtn:hover { background: color-mix(in srgb, var(--secondary), var(--foreground) 7%); }
+.ln-iconbtn:active, .seg button:active, .toolrail button:active, .player__row button:active { transform: scale(0.92); }
+.chapters__item:active, .outline__item:active, .recs__item:active, .flow__box:active { transform: scale(0.97); }
+.ln-card--hover:active, .ln-pcard:active { transform: translateY(-1px) scale(0.985); transition-duration: var(--dur-instant); }
+a.ln-lesson, .lesson-btn { transition: border-color var(--dur-fast), background-color var(--dur-fast), transform var(--dur-base) var(--ease-out); }
+a.ln-lesson:hover, .lesson-btn:hover { transform: translateX(3px); }
+
+/* ---------- Segmented control: the pill slides (motion layoutId) ---------- */
+.seg button { position: relative; }
+.seg button[aria-pressed="true"] { background: transparent; }
+.seg__pill { position: absolute; inset: 0; border-radius: 999px; background: var(--foreground); }
+.seg__text { position: relative; }
+
+/* ---------- Theme switch: the new theme grows out of the button in a circle (View Transitions) ---------- */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }

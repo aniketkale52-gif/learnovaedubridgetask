@@ -1,0 +1,85 @@
+/* Learnova app styles.
+   Order: Tailwind theme + utilities (no preflight: the canvas boards render on browser defaults
+   plus the Learnova bundle CSS, so we keep that baseline), then the tokens, the ported component
+   CSS (unchanged), and the app-level page layout. */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@import '@fontsource/outfit/300.css';
+@import '@fontsource/outfit/400.css';
+@import '@fontsource/outfit/500.css';
+@import '@fontsource/outfit/600.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/jetbrains-mono/500.css';
+
+@import './tokens.css';
+@import './bundle.css';
+@import './app.css';
+@import './subject.css';
+@import './learn.css';
+@import './quiz.css';
+@import './motion.css';
+
+/* Light theme is the alternate: <html data-theme="light">. */
+@custom-variant light (&:where([data-theme='light'], [data-theme='light'] *));
+
+/* Learnova tokens as Tailwind theme keys (shadcn names). Every key points at a token variable,
+   so dark and light switch with the tokens. The default palette and radii are cleared. */
+@theme inline {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-solid: var(--card-solid);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-strong: var(--primary-strong);
+  --color-accent: var(--accent);
+  --color-secondary: var(--secondary);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-border-soft: var(--border-soft);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-soft: var(--success-soft);
+  --color-destructive: var(--destructive);
+  --color-destructive-strong: var(--destructive-strong);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-xp: var(--xp);
+  --color-xp-foreground: var(--xp-foreground);
+  --color-xp-text: var(--xp-text);
+  --color-xp-soft: var(--xp-soft);
+  --color-locked: var(--locked);
+  --color-locked-foreground: var(--locked-foreground);
+
+  --radius-*: initial;
+  --radius-sm: var(--radius-sm);
+  --radius: var(--radius);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+
+  --shadow-*: initial;
+  --shadow-sm: var(--shadow-sm);
+  --shadow-card: var(--shadow-card);
+  --shadow-card-hover: var(--shadow-card-hover);
+  --shadow-popover: var(--shadow-popover);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  --ease-out: var(--ease-out);
+  --ease-in-out: var(--ease-in-out);
+  --ease-spring: var(--ease-spring);
+
+  --breakpoint-phone: 768px;
+}

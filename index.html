@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Learnova: a calm, gamified learning space for college students. Dashboard, course, lesson, quiz and result." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Learnova</title>
+    <script>
+      /* Apply the theme before first paint (?theme=light|dark wins, then the saved choice; dark is the default). */
+      (function () {
+        try {
+          var q = new URLSearchParams(location.search).get('theme');
+          var t = q === 'light' || q === 'dark' ? q : localStorage.getItem('learnova.theme');
+          if (q === 'light' || q === 'dark') localStorage.setItem('learnova.theme', q);
+          if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

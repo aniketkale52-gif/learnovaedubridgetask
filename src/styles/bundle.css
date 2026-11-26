@@ -1,0 +1,383 @@
+/* Copied from design/ds/project/components/bundle.css. Only change: the Google Fonts @import is dropped; fonts load from @fontsource in index.css. */
+
+/* The warm light behind the glass. Use as: background: var(--app-glow), var(--background). */
+:root, [data-theme="dark"], .dark {
+  --app-glow: radial-gradient(640px 460px at 58% 2%, rgba(255, 122, 61, 0.42), transparent 62%), radial-gradient(420px 320px at 64% 10%, rgba(255, 178, 102, 0.22), transparent 60%), radial-gradient(900px 640px at 4% 104%, rgba(140, 56, 22, 0.40), transparent 66%), radial-gradient(700px 520px at 100% 70%, rgba(90, 40, 20, 0.30), transparent 70%);
+  --glass-sheen: linear-gradient(155deg, rgba(255, 240, 228, 0.10) 0%, rgba(255, 240, 228, 0.03) 38%, rgba(255, 240, 228, 0) 70%);
+  --glass-edge: inset 0 1px 0 rgba(255, 244, 236, 0.16), inset 1px 0 0 rgba(255, 244, 236, 0.06);
+}
+[data-theme="light"], .light {
+  --app-glow: radial-gradient(640px 460px at 58% 2%, rgba(255, 140, 80, 0.32), transparent 62%), radial-gradient(900px 640px at 4% 104%, rgba(242, 184, 75, 0.26), transparent 66%), radial-gradient(700px 520px at 100% 70%, rgba(255, 196, 160, 0.30), transparent 70%);
+  --glass-sheen: linear-gradient(155deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.25) 45%, rgba(255, 255, 255, 0.10) 100%);
+  --glass-edge: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* A warm light source to put behind glass, so the blur has something to show */
+.ln-ambient { position: absolute; z-index: 0; border-radius: 50%; pointer-events: none; filter: blur(70px);
+  background: radial-gradient(circle at 40% 40%, rgba(255, 178, 102, 0.85), rgba(255, 122, 61, 0.55) 40%, rgba(140, 50, 20, 0) 72%); }
+
+body { margin: 0; background: var(--app-glow), var(--background); color: var(--foreground); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+.ln-stage { padding: 20px; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.ln-stage--col { flex-direction: column; align-items: stretch; }
+.ln-icon { width: 18px; height: 18px; flex: none; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Glass surface: every panel, card and bar is this */
+.ln-glass, .ln-card, .ln-ccard {
+  background: var(--glass-sheen), var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(160%); backdrop-filter: blur(var(--blur-glass)) saturate(160%);
+  box-shadow: var(--glass-edge), var(--shadow-card);
+  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-fast);
+}
+.ln-glass--strong { -webkit-backdrop-filter: blur(var(--blur-strong)) saturate(150%); backdrop-filter: blur(var(--blur-strong)) saturate(150%); }
+.ln-card--hover, .ln-ccard { cursor: pointer; }
+.ln-card--hover:hover, .ln-ccard:hover { transform: translateY(-3px); box-shadow: var(--glass-edge), var(--shadow-card-hover); border-color: var(--border-strong); }
+.ln-card--hover:focus-visible, .ln-ccard:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+
+.ln-eyebrow { font: 500 12px/16px var(--font-body); letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary-strong); }
+
+/* Buttons: glass pills; coral is the one main action */
+.ln-btn {
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font: 600 14px/20px var(--font-body);
+  padding: 10px 18px; border-radius: var(--radius-full); border: 1px solid transparent; cursor: pointer; text-decoration: none;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--primary) 100%, #fff 12%), var(--primary)); color: var(--primary-foreground);
+  box-shadow: 0 8px 24px rgba(255, 122, 61, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: transform var(--dur-instant) var(--ease-out), box-shadow var(--dur-base) var(--ease-out), background-color var(--dur-fast);
+}
+.ln-btn:hover { box-shadow: 0 10px 32px rgba(255, 122, 61, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
+.ln-btn:active, .ln-btn.is-pressed { transform: scale(0.97); }
+.ln-btn:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+.ln-btn--secondary, .ln-btn--ink { background: var(--secondary); color: var(--foreground); border-color: var(--border); box-shadow: inset 0 1px 0 rgba(255, 244, 236, 0.06);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+.ln-btn--ink { background: var(--foreground); color: var(--background); border-color: transparent; }
+.ln-btn--secondary:hover { border-color: var(--border-strong); box-shadow: none; }
+.ln-btn--ink:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); }
+.ln-btn--ghost { background: transparent; color: var(--muted-foreground); box-shadow: none; }
+.ln-btn--ghost:hover { color: var(--foreground); background: var(--secondary); box-shadow: none; }
+.ln-btn--success { background: var(--success); color: var(--success-foreground); box-shadow: 0 8px 24px rgba(95, 211, 141, 0.25); }
+.ln-btn--danger { background: var(--destructive); color: var(--destructive-foreground); box-shadow: 0 8px 24px rgba(255, 107, 133, 0.22); }
+.ln-btn:disabled { background: var(--secondary); color: var(--muted-foreground); border-color: var(--border-soft); box-shadow: none; cursor: not-allowed; transform: none; }
+
+/* 3D icon tile: rendered icon (or placeholder) that glows and pops on hover */
+.ln-icon3d { position: relative; width: 64px; height: 64px; flex: none; display: grid; place-items: center; isolation: isolate; }
+.ln-icon3d::before { content: ""; position: absolute; inset: -4px; border-radius: 50%; background: radial-gradient(circle, var(--glow) 0%, transparent 68%); filter: blur(16px); opacity: 0; transform: scale(0.6); z-index: -1;
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
+.ln-icon3d img, .ln-icon3d__ph { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.26));
+  transition: transform var(--dur-slow) var(--ease-out), filter var(--dur-slow) var(--ease-out); }
+/* Placeholder until real renders arrive: a matte-black bevelled tile, tilted in 3D, with a glowing gold glyph */
+.ln-icon3d__ph { position: relative; border-radius: 18px; display: grid; place-items: center; color: #f2b84b; overflow: hidden;
+  background: radial-gradient(130% 120% at 28% 18%, #4d3f37 0%, #221a17 42%, #0a0706 100%);
+  box-shadow: inset 1px 1px 0 rgba(255, 236, 222, 0.22), inset -3px -5px 10px rgba(0, 0, 0, 0.65), 0 10px 18px rgba(0, 0, 0, 0.5);
+  transform: perspective(260px) rotateX(12deg) rotateY(-16deg); }
+.ln-icon3d__ph::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 38%); }
+.ln-icon3d__ph .ln-icon { width: 30px; height: 30px; stroke-width: 2.4; filter: drop-shadow(0 0 6px rgba(242, 184, 75, 0.55)) drop-shadow(0 2px 0 rgba(90, 50, 0, 0.6)); }
+.ln-icon3d--gold::before { background: var(--glow-gold); }
+.ln-pop:hover .ln-icon3d::before, .ln-icon3d:hover::before { opacity: 0.55; transform: scale(1.3); }
+.ln-pop:hover .ln-icon3d img, .ln-icon3d:hover img { transform: translateY(-8px) scale(1.1) rotate(-4deg); filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.3)); }
+.ln-pop:hover .ln-icon3d__ph, .ln-icon3d:hover .ln-icon3d__ph {
+  transform: perspective(260px) translateY(-12px) translateZ(18px) rotateX(6deg) rotateY(-24deg) scale(1.1); filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.3)); }
+
+/* Action tile: glass card holding a 3D icon that pops out of it */
+.ln-tile { display: flex; align-items: center; gap: 14px; padding: 14px 16px; text-decoration: none; color: inherit; overflow: visible; }
+
+/* Portrait course card (tall, image-led) */
+.ln-pcard { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 300px; padding: 14px; border-radius: var(--radius-xl);
+  overflow: hidden; color: #f5efe9; text-decoration: none; border: 1px solid var(--border); box-shadow: var(--shadow-card); isolation: isolate;
+  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-fast); }
+.ln-pcard::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 35%, rgba(10, 7, 6, 0.86) 100%); }
+.ln-pcard__art { position: absolute; inset: 0; z-index: -2; display: grid; place-items: center; transition: transform var(--dur-page) var(--ease-out); }
+.ln-pcard:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); border-color: var(--border-strong); }
+.ln-pcard:hover .ln-pcard__art { transform: scale(1.05); }
+.ln-pcard:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+.ln-pcard__status { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px;
+  background: rgba(14, 11, 10, 0.55); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); font: 500 12px var(--font-body); color: #f5efe9; }
+.ln-pcard__status i { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); }
+.ln-pcard__time { position: absolute; top: 12px; right: 12px; padding: 4px 9px; border-radius: 999px; background: rgba(14, 11, 10, 0.55); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); font: 500 12px var(--font-body); }
+.ln-pcard__title { font: 500 17px/1.25 var(--font-display); margin: 8px 0 2px; }
+.ln-pcard__meta { font: 400 12px var(--font-body); color: rgba(245, 239, 233, 0.72); }
+.ln-pcard .ln-progress { height: 4px; background: rgba(245, 239, 233, 0.18); margin-top: 10px; }
+
+/* Course card (compact glass, used in lists) */
+.ln-ccard { padding: 8px; display: flex; flex-direction: column; min-width: 0; text-decoration: none; color: inherit; }
+.ln-ccard__thumb { position: relative; height: 96px; border-radius: 14px; overflow: hidden; display: grid; place-items: center; }
+.ln-ccard__badge { position: absolute; top: 8px; left: 8px; padding: 3px 10px; border-radius: 999px; background: rgba(14, 11, 10, 0.55); color: #f5efe9; font: 500 11px/16px var(--font-body);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.ln-ccard__body { padding: 12px 8px 4px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.ln-ccard__title { font: 500 16px/22px var(--font-display); margin: 0; }
+.ln-ccard__stats { display: grid; grid-template-columns: 1fr 1fr; }
+.ln-ccard__stat { display: flex; align-items: center; gap: 10px; }
+.ln-ccard__stat + .ln-ccard__stat { border-left: 1px solid var(--border); padding-left: 14px; }
+.ln-ccard__label { font: 500 12px/16px var(--font-body); color: var(--muted-foreground); }
+.ln-ccard__value { font: 600 14px/18px var(--font-body); font-variant-numeric: tabular-nums; }
+.ln-ccard__tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.ln-ccard__foot { display: flex; justify-content: space-between; gap: 8px; padding-top: 10px; border-top: 1px solid var(--border-soft); font: 500 12px/16px var(--font-body); color: var(--muted-foreground); }
+.ln-ccard__foot b { color: var(--foreground); font-weight: 600; }
+.ln-ring { width: 30px; height: 30px; flex: none; transform: rotate(-90deg); }
+.ln-ring circle { fill: none; stroke-width: 4; }
+.ln-ring .track { stroke: var(--secondary); }
+.ln-ring .bar { stroke: var(--primary); stroke-linecap: round; transition: stroke-dashoffset var(--dur-page) var(--ease-out); filter: drop-shadow(0 0 4px var(--glow)); }
+.ln-ring--success .bar { stroke: var(--success); filter: none; }
+.ln-tag { padding: 3px 10px; border-radius: 999px; background: var(--secondary); font: 500 12px/16px var(--font-body); color: var(--muted-foreground); }
+.ln-tag--due { background: var(--accent); color: var(--primary-strong); }
+.ln-iconbtn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--secondary); color: var(--foreground); display: grid; place-items: center; cursor: pointer;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); transition: border-color var(--dur-fast); }
+.ln-iconbtn:hover { border-color: var(--border-strong); }
+.ln-iconbtn .ln-icon { width: 16px; height: 16px; }
+
+/* Progress: thin, glowing */
+.ln-progress { height: 6px; border-radius: 999px; background: var(--secondary); overflow: hidden; }
+.ln-progress--lg { height: 8px; }
+.ln-progress__fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #ffb27a, var(--primary));
+  box-shadow: 0 0 12px var(--glow); transition: width var(--dur-page) var(--ease-out); }
+.ln-progress--success .ln-progress__fill { background: var(--success); box-shadow: none; }
+
+/* Chips */
+.ln-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font: 500 12px/18px var(--font-body);
+  background: var(--secondary); color: var(--muted-foreground); border: 1px solid var(--border-soft); font-variant-numeric: tabular-nums; }
+.ln-chip--xp { background: var(--xp-soft); color: var(--xp-text); }
+.ln-chip--combo { background: var(--accent); color: var(--primary-strong); }
+
+/* Lesson row */
+.ln-lesson { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--glass-sheen), var(--card); box-shadow: var(--glass-edge);
+  -webkit-backdrop-filter: blur(var(--blur-glass)); backdrop-filter: blur(var(--blur-glass)); color: inherit; text-decoration: none; transition: border-color var(--dur-fast), background-color var(--dur-fast); }
+.ln-lesson__node { width: 32px; height: 32px; flex: none; border-radius: 50%; display: grid; place-items: center; font: 500 14px var(--font-display); }
+.ln-lesson__node .ln-icon { width: 16px; height: 16px; }
+.ln-lesson__body { flex: 1; min-width: 0; }
+.ln-lesson__title { font: 600 15px/22px var(--font-body); }
+.ln-lesson__meta { font: 400 13px/18px var(--font-body); color: var(--muted-foreground); }
+.ln-lesson__tail { font: 500 13px var(--font-body); color: var(--muted-foreground); }
+.ln-lesson.is-done .ln-lesson__node { background: var(--success-soft); color: var(--success); }
+.ln-lesson.is-current { border-color: color-mix(in srgb, var(--primary) 60%, transparent); background: var(--accent); box-shadow: 0 0 28px rgba(255, 122, 61, 0.18); }
+.ln-lesson.is-current .ln-lesson__node { background: var(--primary); color: var(--primary-foreground); box-shadow: 0 0 14px var(--glow); }
+.ln-lesson.is-locked { background: var(--locked); border-color: var(--border-soft); }
+.ln-lesson.is-locked .ln-lesson__node { color: var(--locked-foreground); border: 1px solid var(--border); }
+.ln-lesson.is-locked .ln-lesson__title, .ln-lesson.is-locked .ln-lesson__meta { color: var(--locked-foreground); }
+
+/* Quiz option */
+.ln-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 20px; max-width: 640px; }
+.ln-option { padding: 12px; display: flex; flex-direction: column; gap: 12px; background: var(--glass-sheen), var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--glass-edge);
+  -webkit-backdrop-filter: blur(var(--blur-glass)); backdrop-filter: blur(var(--blur-glass)); cursor: pointer; text-align: left; font: inherit; color: inherit;
+  transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-fast), border-color var(--dur-fast), box-shadow var(--dur-base); }
+.ln-option:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+.ln-option:active { transform: scale(0.98); }
+.ln-option:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.ln-option__code { font: 500 13px/20px var(--font-mono); background: rgba(0, 0, 0, 0.25); color: var(--foreground); border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: 10px; min-height: 60px; white-space: pre; overflow-x: auto; }
+.light .ln-option__code, [data-theme="light"] .ln-option__code { background: rgba(40, 24, 16, 0.05); }
+.ln-option__row { display: flex; justify-content: space-between; align-items: center; gap: 8px; font: 600 14px var(--font-body); }
+.ln-option__key { min-width: 22px; height: 22px; border-radius: 7px; border: 1px solid var(--border); display: grid; place-items: center; font: 600 11px var(--font-body); color: var(--muted-foreground); }
+.ln-option[aria-checked="true"] { border-color: var(--primary); background: var(--accent); box-shadow: 0 0 0 1px var(--primary), 0 0 30px rgba(255, 122, 61, 0.22); }
+.ln-option[aria-checked="true"] .ln-option__key { border-color: var(--primary-strong); color: var(--primary-strong); }
+.ln-option.is-correct { border-color: var(--success); background: var(--success-soft); box-shadow: 0 0 30px rgba(95, 211, 141, 0.18); }
+.ln-option.is-wrong { border-color: var(--destructive); background: var(--destructive-soft); animation: ln-shake var(--dur-base) var(--ease-in-out); }
+@keyframes ln-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+/* Feedback panel */
+.ln-feedback { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 18px; border-radius: var(--radius-lg); border: 1px solid;
+  -webkit-backdrop-filter: blur(var(--blur-strong)); backdrop-filter: blur(var(--blur-strong)); }
+.ln-feedback__head { display: flex; gap: 12px; align-items: flex-start; min-width: 0; }
+.ln-feedback__title { font: 500 18px/24px var(--font-display); margin: 0; }
+.ln-feedback__body { font: 400 14px/21px var(--font-body); margin: 2px 0 0; color: var(--foreground); }
+.ln-feedback__icon { width: 28px; height: 28px; flex: none; border-radius: 50%; display: grid; place-items: center; }
+.ln-feedback__icon .ln-icon { width: 16px; height: 16px; stroke-width: 2.5; }
+.ln-feedback--correct { background: var(--success-soft); color: var(--success); border-color: var(--success); }
+.ln-feedback--correct .ln-feedback__icon { background: var(--success); color: var(--success-foreground); }
+.ln-feedback--wrong { background: var(--destructive-soft); color: var(--destructive-strong); border-color: var(--destructive); }
+.ln-feedback--wrong .ln-feedback__icon { background: var(--destructive); color: var(--destructive-foreground); }
+.ln-slide-up { animation: ln-up var(--dur-slow) var(--ease-out); }
+@keyframes ln-up { from { transform: translateY(16px); opacity: 0; } }
+
+/* Quiz moments: select, check, feedback, mascot peek, review, celebrate, streak.
+   Every animation runs once and its resting state is the final state, so reduced motion shows the end result. */
+.ln-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ln-pop-in { animation: ln-pop 450ms var(--ease-spring) 120ms both; }
+@keyframes ln-pop { from { transform: scale(0); opacity: 0; } }
+.ln-step-in { animation: ln-step-in var(--dur-slow) var(--ease-out) both; }
+@keyframes ln-step-in { from { transform: translateX(32px); opacity: 0; } }
+
+/* Quiz progress bar: the fill grows from --from, the head rings, the combo label rides the head. 5+ in a row runs hot (gold). */
+.ln-qbar { position: relative; flex: 1; height: 12px; border-radius: 999px; background: var(--secondary); }
+.ln-qbar__fill { position: relative; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ffb27a, var(--primary)); box-shadow: 0 0 12px var(--glow);
+  animation: ln-qbar-grow var(--dur-page) var(--ease-out) 150ms both; }
+@keyframes ln-qbar-grow { from { width: var(--from, 0%); } }
+.ln-qbar__fill::after { content: ""; position: absolute; right: -10px; top: 50%; width: 24px; height: 24px; margin-top: -12px; border-radius: 50%; border: 2px solid var(--primary-strong); opacity: 0;
+  animation: ln-ring 700ms var(--ease-out) 600ms both; }
+@keyframes ln-ring { from { transform: scale(0.4); opacity: 0.9; } to { transform: scale(1.7); opacity: 0; } }
+.ln-qbar__combo { position: absolute; right: 0; bottom: calc(100% + 7px); transform: translateX(50%); white-space: nowrap; font: 700 11px/1 var(--font-body); letter-spacing: 0.08em; text-transform: uppercase; color: var(--primary-strong);
+  animation: ln-combo-in 450ms var(--ease-spring) 600ms both; }
+@keyframes ln-combo-in { from { transform: translateX(50%) translateY(6px) scale(0.5); opacity: 0; } }
+.ln-qbar--hot .ln-qbar__fill { background: linear-gradient(90deg, #f2b84b, #ffd27a); box-shadow: 0 0 16px var(--glow-gold); }
+.ln-qbar--hot .ln-qbar__fill::after { border-color: var(--xp); }
+.ln-qbar--hot .ln-qbar__combo { color: var(--xp-text); }
+
+/* Correct pick: a small spring and gold sparkles at two corners. Put <span class="ln-sparkle"><i></i><i></i><i></i><i></i></span> inside the option. */
+.ln-option { position: relative; }
+.ln-option.is-correct { animation: ln-bump 400ms var(--ease-spring); }
+@keyframes ln-bump { 40% { transform: scale(1.03); } }
+.ln-sparkle { position: absolute; inset: -9px; pointer-events: none; }
+.ln-sparkle i { position: absolute; width: 16px; height: 16px; background: #ffd27a; opacity: 0;
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); animation: ln-twinkle 1100ms var(--ease-out) 150ms both; }
+.ln-sparkle i:nth-child(1) { top: 0; right: 16%; }
+.ln-sparkle i:nth-child(2) { top: 18%; right: 0; width: 9px; height: 9px; animation-delay: 240ms; }
+.ln-sparkle i:nth-child(3) { bottom: 2%; left: 10%; animation-delay: 300ms; }
+.ln-sparkle i:nth-child(4) { bottom: 20%; left: 0; width: 9px; height: 9px; animation-delay: 400ms; }
+@keyframes ln-twinkle { 0% { transform: scale(0) rotate(-45deg); opacity: 0; } 30% { transform: scale(1.15) rotate(0); opacity: 1; } 65% { transform: scale(0.85) rotate(20deg); opacity: 1; } 100% { transform: scale(0) rotate(45deg); opacity: 0; } }
+
+/* Mascot: Blender renders (dark and light) with live SVG eyes on the visor; markup comes from the Mascot component.
+   The theme picks the render, so the same markup works on dark and light pages. */
+.ln-m { position: relative; flex: none; }
+.ln-m__img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ln-m__img img { display: block; width: 100%; height: 100%; }
+/* Life: the whole body moves (image and eyes together), so the mascot never sits frozen. Wave and celebrate also
+   play a rendered arm loop; reduced motion swaps that for a still frame and stops these. */
+.ln-m__body { position: absolute; inset: 0; transform-origin: 50% 86%; }
+.ln-m__body--idle { animation: ln-m-breathe 3.6s ease-in-out infinite; }
+@keyframes ln-m-breathe { 50% { transform: scale(1.012, 1.024); } }
+.ln-m__body--wave { animation: ln-m-sway 2.6s ease-in-out infinite; }
+@keyframes ln-m-sway { 25% { transform: rotate(-1.4deg); } 75% { transform: rotate(1.4deg); } }
+.ln-m__body--peek { animation: ln-m-bob 3.6s ease-in-out infinite; }
+@keyframes ln-m-bob { 50% { transform: translateY(1.2%); } }
+.ln-m__body--cheer { animation: ln-m-bounce 0.8s ease-in-out infinite alternate; }
+@keyframes ln-m-bounce { from { transform: translateY(0) scale(1.02, 0.98); } to { transform: translateY(-4%) scale(0.99, 1.02); } }
+.ln-m__body--celebrate { animation: ln-m-jump 1s ease-in-out infinite; }
+@keyframes ln-m-jump { 0%, 100% { transform: translateY(0) scale(1.03, 0.97); } 50% { transform: translateY(-5%) scale(0.98, 1.03); } }
+.ln-m__img--light { display: none; }
+.light .ln-m__img--dark, [data-theme="light"] .ln-m__img--dark { display: none; }
+.light .ln-m__img--light, [data-theme="light"] .ln-m__img--light { display: block; }
+.ln-m__visor { position: absolute; }
+.ln-m__visor svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 3px #ffc35a) drop-shadow(0 0 9px rgba(255, 122, 61, 0.75)); }
+.ln-eye { fill: #fff1cf; }
+.ln-eye-line { fill: none; stroke: #fff1cf; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; }
+.ln-eye-blink { transform-box: fill-box; transform-origin: center; animation: ln-eye-blink 4s infinite; }
+@keyframes ln-eye-blink { 0%, 90%, 100% { transform: scaleY(1); } 94% { transform: scaleY(0.1); } }
+.ln-eye-bob { animation: ln-eye-bob 1.6s ease-in-out infinite; }
+@keyframes ln-eye-bob { 50% { transform: translateY(-6px); } }
+.ln-eye-nod { animation: ln-eye-nod 2.4s ease-in-out infinite; }
+@keyframes ln-eye-nod { 30% { transform: translateY(5px); } 60% { transform: translateY(-1px); } }
+.ln-eye-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: ln-eye-flame 0.45s ease-in-out infinite alternate; }
+@keyframes ln-eye-flame { from { transform: scale(1, 0.9); } to { transform: scale(0.93, 1.08); } }
+.ln-eye-spin { transform-box: fill-box; transform-origin: center; animation: ln-eye-spin 3s linear infinite; }
+@keyframes ln-eye-spin { to { transform: rotate(360deg); } }
+.ln-m--hop { animation: ln-hop 900ms var(--ease-spring) both; }
+@keyframes ln-hop { 0% { transform: translateY(40px) scale(0.6); opacity: 0; } 60% { transform: translateY(-10px) scale(1.04); opacity: 1; } }
+
+/* Live mascot (dashboard): waves on arrival, giggles when poked, dozes off after 15 s alone.
+   Each poke flips --a / --b; a changed animation-name restarts the animation, so every timer below starts over.
+   Defaults are the calm, awake state, so reduced motion (no animations) simply shows that. */
+.ln-m--live { transform-origin: 50% 48%; }
+.ln-m__eyes { position: absolute; inset: 0; transform-origin: 50% 50%; }
+/* a new mood opens with a quick blink instead of popping in */
+.ln-m__eyes--base svg { transform-origin: 50% 50%; animation: ln-eye-open 260ms var(--ease-out) both; }
+@keyframes ln-eye-open { from { transform: scaleY(0.1); opacity: 0.4; } }
+/* the mascot rises into place when a screen loads (dashboard hero, quiz footer) */
+.ln-m-rise > * { animation: ln-peek-up 700ms var(--ease-spring) 300ms both; }
+.ln-m__eyes--tickle, .ln-m__eyes--sleep, .ln-m__zzz, .ln-m__greet { opacity: 0; }
+.ln-m__greet { animation: ln-m-greet 1.7s ease-in-out; }
+@keyframes ln-m-greet { 0%, 80% { opacity: 1; } 100% { opacity: 0; } }
+.ln-m__after-greet { animation: ln-m-after-greet 1.7s ease-in-out; }
+@keyframes ln-m-after-greet { 0%, 80% { opacity: 0; } 100% { opacity: 1; } }
+.ln-m--a .ln-m__eyes--sleep, .ln-m--a .ln-m__zzz { animation: ln-m-on-a 0.8s ease-in-out 15s forwards; }
+.ln-m--b .ln-m__eyes--sleep, .ln-m--b .ln-m__zzz { animation: ln-m-on-b 0.8s ease-in-out 15s forwards; }
+.ln-m--a .ln-m__eyes--base { animation: ln-m-off-a 0.8s ease-in-out 15s forwards; }
+.ln-m--b .ln-m__eyes--base { animation: ln-m-off-b 0.8s ease-in-out 15s forwards; }
+.ln-m--poked.ln-m--a .ln-m__eyes--base { animation: ln-m-wink-a 1.3s ease-in-out, ln-m-off-a 0.8s ease-in-out 15s forwards; }
+.ln-m--poked.ln-m--b .ln-m__eyes--base { animation: ln-m-wink-b 1.3s ease-in-out, ln-m-off-b 0.8s ease-in-out 15s forwards; }
+.ln-m--poked.ln-m--a .ln-m__eyes--tickle { animation: ln-m-giggle-a 1.3s ease-in-out; }
+.ln-m--poked.ln-m--b .ln-m__eyes--tickle { animation: ln-m-giggle-b 1.3s ease-in-out; }
+.ln-m--poked.ln-m--a { animation: ln-m-tickle-a 0.75s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+.ln-m--poked.ln-m--b { animation: ln-m-tickle-b 0.75s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+@keyframes ln-m-on-a { from { opacity: 0; transform: scaleY(0.5); } to { opacity: 1; transform: none; } }
+@keyframes ln-m-on-b { from { opacity: 0; transform: scaleY(0.5); } to { opacity: 1; transform: none; } }
+@keyframes ln-m-off-a { to { opacity: 0; transform: scaleY(0.15); } }
+@keyframes ln-m-off-b { to { opacity: 0; transform: scaleY(0.15); } }
+@keyframes ln-m-wink-a { 0% { opacity: 1; } 10%, 85% { opacity: 0; transform: scaleY(0.3); } }
+@keyframes ln-m-wink-b { 0% { opacity: 1; } 10%, 85% { opacity: 0; transform: scaleY(0.3); } }
+@keyframes ln-m-giggle-a { 0% { opacity: 0; transform: scaleY(0.3); } 12%, 85% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes ln-m-giggle-b { 0% { opacity: 0; transform: scaleY(0.3); } 12%, 85% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes ln-m-tickle-a { 15% { transform: scale(1.05, 0.93) rotate(-3deg); } 30% { transform: scale(0.97, 1.04) rotate(3deg); } 45% { transform: rotate(-2deg); } 60% { transform: rotate(1.5deg); } }
+@keyframes ln-m-tickle-b { 15% { transform: scale(1.05, 0.93) rotate(-3deg); } 30% { transform: scale(0.97, 1.04) rotate(3deg); } 45% { transform: rotate(-2deg); } 60% { transform: rotate(1.5deg); } }
+.ln-m__zzz { position: absolute; left: 61%; top: 7%; font: 700 26px var(--font-display); color: var(--xp-text); text-shadow: 0 0 10px var(--glow-gold); white-space: nowrap; }
+.ln-m__zzz span { display: inline-block; animation: ln-m-z 2.4s ease-in infinite; }
+.ln-m__zzz span:nth-child(2) { font-size: 20px; animation-delay: 0.8s; }
+.ln-m__zzz span:nth-child(3) { font-size: 15px; animation-delay: 1.6s; }
+@keyframes ln-m-z { 0% { transform: translate(0, 0); opacity: 0; } 25% { opacity: 1; } 100% { transform: translate(16px, -20px); opacity: 0; } }
+.ln-eye-drift { animation: ln-eye-drift 3s ease-in-out infinite; }
+@keyframes ln-eye-drift { 0%, 100% { transform: translate(10px, -10px); } 50% { transform: translate(16px, -13px); } }
+.ln-eye-down { animation: ln-eye-down 1.4s ease-in-out infinite alternate; }
+@keyframes ln-eye-down { from { transform: translate(-6px, 12px); } to { transform: translate(6px, 12px); } }
+.ln-eye-dot { transform-box: fill-box; transform-origin: center; animation: ln-eye-dot 1s ease-in-out infinite; }
+.ln-eye-dot--2 { animation-delay: 0.2s; }
+.ln-eye-dot--3 { animation-delay: 0.4s; }
+@keyframes ln-eye-dot { 0%, 100% { transform: translateY(6px); opacity: 0.45; } 50% { transform: translateY(-8px); opacity: 1; } }
+/* --awake: never dozes (quiz screens); still giggles when poked */
+.ln-m--awake .ln-m__eyes--base { animation: none; }
+.ln-m--awake.ln-m--poked.ln-m--a .ln-m__eyes--base { animation: ln-m-wink-a 1.3s; }
+.ln-m--awake.ln-m--poked.ln-m--b .ln-m__eyes--base { animation: ln-m-wink-b 1.3s; }
+/* What the mascot says: a glass bubble that pops in, holds, and fades (restarted per poke like the timers) */
+.ln-m-say { position: absolute; max-width: 250px; margin: 0; padding: 10px 14px; border-radius: 16px 16px 4px 16px; background: var(--glass-sheen), var(--card-solid);
+  border: 1px solid var(--border-strong); box-shadow: var(--glass-edge), var(--shadow-card); font: 500 13px/1.45 var(--font-body); color: var(--foreground);
+  transform-origin: 100% 100%; pointer-events: none; }
+.ln-m-say--left { border-radius: 16px 16px 16px 4px; transform-origin: 0 100%; }
+.ln-m-say--a { animation: ln-m-say-a 5.5s var(--ease-out) 0.5s both; }
+.ln-m-say--b { animation: ln-m-say-b 5.5s var(--ease-out) both; }
+@keyframes ln-m-say-a { 0% { opacity: 0; transform: translateY(8px) scale(0.86); } 5% { opacity: 1; transform: scale(1.03); } 8%, 86% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-4px); } }
+@keyframes ln-m-say-b { 0% { opacity: 0; transform: translateY(8px) scale(0.86); } 5% { opacity: 1; transform: scale(1.03); } 8%, 86% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-4px); } }
+
+/* Mascot peek: a beat of its own between questions. Place .ln-peek inside the footer (position: relative);
+   the mascot rises from behind the footer's top edge, the bubble follows. */
+.ln-peek { position: absolute; bottom: 100%; display: flex; align-items: flex-end; gap: 14px; pointer-events: none; }
+.ln-peek__clip { overflow: hidden; padding: 6px 8px 0; }
+.ln-peek__clip > * { animation: ln-peek-up 650ms var(--ease-spring) 250ms both; }
+@keyframes ln-peek-up { from { transform: translateY(105%); } }
+.ln-peek__bubble { margin-bottom: 34px; max-width: 320px; padding: 12px 16px; border-radius: 18px 18px 18px 6px; background: var(--glass-sheen), var(--card); border: 1px solid var(--border-strong); box-shadow: var(--glass-edge), var(--shadow-card);
+  -webkit-backdrop-filter: blur(var(--blur-glass)); backdrop-filter: blur(var(--blur-glass)); font: 500 15px/1.45 var(--font-body); color: var(--foreground);
+  transform-origin: 0 100%; animation: ln-bubble 320ms var(--ease-out) 750ms both; }
+@keyframes ln-bubble { from { opacity: 0; transform: translateY(8px) scale(0.85); } }
+
+/* Celebration: an ember light band sweeps across, gold confetti bursts, then the stage settles. */
+.ln-celebrate { position: relative; display: grid; place-items: center; }
+.ln-sweep { position: absolute; left: -30%; right: -30%; top: 50%; height: 200px; margin-top: -100px; transform: rotate(-12deg); pointer-events: none; opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 122, 61, 0.35) 25%, rgba(255, 210, 122, 0.6) 50%, rgba(255, 122, 61, 0.35) 75%, transparent);
+  animation: ln-sweep 1300ms var(--ease-out) both; }
+@keyframes ln-sweep { 0% { clip-path: inset(0 100% 0 0); opacity: 1; } 45% { clip-path: inset(0 0 0 0); opacity: 1; } 100% { clip-path: inset(0 0 0 0); opacity: 0; } }
+.ln-confetti { position: absolute; inset: 0; pointer-events: none; }
+.ln-confetti i { position: absolute; left: 50%; top: 45%; width: 9px; height: 9px; border-radius: 2px; background: var(--xp); opacity: 0;
+  animation: ln-burst 1200ms var(--ease-out) 300ms both; }
+.ln-confetti i:nth-child(2n) { background: var(--primary); width: 6px; height: 11px; }
+.ln-confetti i:nth-child(3n) { background: #ffd27a; border-radius: 50%; }
+@keyframes ln-burst { 0% { transform: translate(0, 0) rotate(0); opacity: 1; } 75% { opacity: 1; } 100% { transform: translate(var(--x), var(--y)) rotate(var(--r, 220deg)); opacity: 0; } }
+
+/* Stat card: coloured header strip + value that counts up (set --to, plus --prefix / --suffix strings). */
+@property --ln-n { syntax: '<integer>'; inherits: false; initial-value: 0; }
+.ln-stat { --stat: var(--xp); --stat-fg: var(--xp-foreground); --stat-text: var(--xp-text);
+  min-width: 150px; border-radius: var(--radius-lg); border: 2px solid var(--stat); background: var(--card); overflow: hidden; text-align: center; box-shadow: var(--shadow-card);
+  animation: ln-stat-in 500ms var(--ease-spring) both; }
+.ln-stat--accuracy { --stat: var(--success); --stat-fg: var(--success-foreground); --stat-text: var(--success); }
+.ln-stat--time { --stat: var(--primary); --stat-fg: var(--primary-foreground); --stat-text: var(--primary-strong); }
+.ln-stat__label { display: block; padding: 6px 10px; background: var(--stat); color: var(--stat-fg); font: 700 11px/1.2 var(--font-body); letter-spacing: 0.08em; text-transform: uppercase; }
+.ln-stat__value { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 12px 16px; font: 500 30px/1 var(--font-display); color: var(--stat-text); font-variant-numeric: tabular-nums; }
+@keyframes ln-stat-in { from { transform: translateY(16px) scale(0.9); opacity: 0; } }
+.ln-count { --ln-n: var(--to); counter-reset: ln-n var(--ln-n); animation: ln-count 1000ms var(--ease-out) both; }
+.ln-count::after { content: var(--prefix, "") counter(ln-n) var(--suffix, ""); }
+@keyframes ln-count { from { --ln-n: 0; } }
+
+/* Streak: the flame ignites from an ember, the number rolls over, today's dot pops. */
+.ln-flame { display: block; transform-origin: 50% 100%; filter: drop-shadow(0 0 22px var(--glow)); animation: ln-ignite 900ms var(--ease-spring) 250ms both; }
+@keyframes ln-ignite { 0% { transform: scale(0.45, 0.12); opacity: 0.4; } 45% { transform: scale(1.12, 0.6); opacity: 1; } }
+.ln-roll { display: inline-block; height: 1em; overflow: hidden; line-height: 1; vertical-align: top; }
+.ln-roll > span { display: flex; flex-direction: column; transform: translateY(-50%); animation: ln-roll 650ms var(--ease-spring) 700ms both; }
+@keyframes ln-roll { from { transform: translateY(0); } }
+.ln-week { display: flex; gap: 12px; justify-content: center; }
+.ln-week__day { display: flex; flex-direction: column; align-items: center; gap: 6px; font: 600 11px var(--font-body); color: var(--muted-foreground); }
+.ln-week__dot { width: 30px; height: 30px; border-radius: 50%; background: var(--secondary); border: 1px solid var(--border); display: grid; place-items: center; }
+.ln-week__day.is-done { color: var(--xp-text); }
+.ln-week__day.is-done .ln-week__dot { background: var(--xp); border-color: transparent; color: var(--xp-foreground); }
+.ln-week__day.is-today .ln-week__dot { box-shadow: 0 0 16px var(--glow-gold); animation: ln-pop 500ms var(--ease-spring) 1250ms both; }
+
+/* Accessibility fallbacks */
+@media (prefers-reduced-transparency: reduce) {
+  .ln-glass, .ln-card, .ln-ccard, .ln-lesson, .ln-option, .ln-feedback { background: var(--card-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .ln-sparkle, .ln-sweep, .ln-confetti, .ln-qbar__fill::after { display: none; }
+}

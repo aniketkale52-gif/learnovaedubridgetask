@@ -1,0 +1,143 @@
+/* ---------- Mascot: dozing is driven by real page inactivity (the page adds --dozing), not the bundle's CSS timer ---------- */
+/* as specific as the bundle's poked-wink rule (.ln-m--awake.ln-m--poked.ln-m--b …), so dozing after a poke still closes the eyes */
+.ln-m--live.ln-m--awake.ln-m--dozing .ln-m__eyes--base { animation: ln-m-off-a 0.8s ease-in-out forwards; }
+.ln-m--dozing .ln-m__eyes--sleep, .ln-m--dozing .ln-m__zzz { animation: ln-m-on-a 0.8s ease-in-out forwards; }
+@keyframes ln-peek-down { to { transform: translateY(105%); } }
+@media (prefers-reduced-motion: reduce) {
+  /* no fades: show the end state */
+  .ln-m--live.ln-m--awake.ln-m--dozing .ln-m__eyes--base { opacity: 0; }
+  .ln-m--dozing .ln-m__eyes--sleep, .ln-m--dozing .ln-m__zzz { opacity: 1; }
+}
+
+/* ---------- 4 · Quiz ---------- */
+.quiz-bar { display: flex; align-items: center; gap: 18px; padding: 30px clamp(16px, 8vw, 120px) 18px; }
+.quiz-main { flex: 1; padding: 28px clamp(16px, 8vw, 120px); }
+.quiz-q { max-width: 760px; margin: 0 auto; }
+.quiz-q__eyebrow { display: flex; align-items: center; gap: 10px; }
+.quiz-q__title { margin: 8px 0 26px; font: 500 30px/1.15 var(--font-display); letter-spacing: -0.02em; }
+.quiz-q__title:focus { outline: none; }
+.quiz-q__opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.quiz-q__keys { margin: 18px 0 0; font-size: 13px; color: var(--muted-foreground); }
+.quiz-q__hint { display: flex; align-items: center; gap: 8px; margin: 16px 0 0; padding: 10px 14px; border-radius: var(--radius); background: var(--xp-soft); color: var(--xp-text); font-size: 14px; font-weight: 500; animation: ln-up var(--dur-slow) var(--ease-out) 200ms backwards; }
+.quiz-q__hint .ln-icon { width: 16px; height: 16px; flex: none; }
+.quiz-opt { font: inherit; }
+.quiz-opt .ln-option__code { min-height: 74px; box-sizing: border-box; }
+.quiz-opt .ln-option__key .ln-icon { width: 12px; height: 12px; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-opt:disabled:hover { transform: none; border-color: var(--border); }
+.quiz-opt.is-correct .ln-option__key, .quiz-opt.is-answer .ln-option__key { border-color: var(--success); color: var(--success); }
+.quiz-opt.is-correct:disabled:hover { border-color: var(--success); }
+.quiz-opt.is-answer, .quiz-opt.is-answer:disabled:hover { border-color: var(--success); box-shadow: 0 0 0 1px var(--success); }
+.quiz-opt.is-wrong .ln-option__key { border-color: var(--destructive); color: var(--destructive-strong); }
+.quiz-opt.is-wrong:disabled:hover { border-color: var(--destructive); }
+/* after a check the picked card keeps its result colours, not the selected ember */
+.quiz-opt.is-correct[aria-checked="true"] { border-color: var(--success); background: var(--success-soft); box-shadow: 0 0 30px rgba(95, 211, 141, 0.18); }
+.quiz-opt.is-wrong[aria-checked="true"] { border-color: var(--destructive); background: var(--destructive-soft); box-shadow: none; }
+
+.quiz-foot { position: relative; border-top: 1px solid var(--border); padding: 18px clamp(16px, 8vw, 120px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; min-height: 84px; box-sizing: border-box;
+  transition: background-color var(--dur-slow) var(--ease-out), border-color var(--dur-slow) var(--ease-out); }
+.quiz-foot--ok { border-top-color: var(--success); background: var(--success-soft); }
+.quiz-foot--bad { border-top-color: var(--destructive); background: var(--destructive-soft); }
+.quiz-foot--skip { border-top-color: var(--border-strong); background: var(--card-solid); } /* a skip isn't a mistake: neutral */
+.quiz-fb { flex: 1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; }
+.quiz-fb__head { display: flex; gap: 14px; align-items: center; }
+.quiz-fb__icon { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+.quiz-fb__icon .ln-icon { width: 24px; height: 24px; stroke-width: 2.5; }
+.quiz-fb__icon.is-ok { background: var(--success); color: var(--success-foreground); box-shadow: 0 0 22px rgba(95, 211, 141, 0.35); }
+.quiz-fb__icon.is-bad { background: var(--destructive); color: var(--destructive-foreground); }
+.quiz-fb__icon.is-skip { background: var(--secondary); color: var(--foreground); box-shadow: inset 0 0 0 1px var(--border-strong); }
+.quiz-fb__icon.is-skip .ln-icon { width: 22px; height: 22px; stroke-width: 2.2; }
+.quiz-fb__title { display: block; font: 500 20px var(--font-display); }
+.quiz-foot--ok .quiz-fb__title { color: var(--success); }
+.quiz-foot--bad .quiz-fb__title { color: var(--destructive-strong); }
+.quiz-fb__body { font-size: 14px; }
+.quiz-fb__actions { display: flex; gap: 10px; }
+
+.quiz-mascot { display: contents; } /* its parts sit on the footer edge, outside the footer's row */
+.quiz-mascot__clip { position: absolute; left: clamp(16px, 8vw, 120px); bottom: 100%; width: 200px; height: 96px; overflow: hidden; pointer-events: none; }
+.quiz-mascot__poke { position: absolute; left: calc(clamp(16px, 8vw, 120px) + 36px); bottom: 100%; width: 128px; height: 96px; padding: 0; border: 0; border-radius: 45% 45% 0 0; background: transparent; cursor: pointer; }
+.quiz-mascot__poke:focus-visible { outline: 2px solid var(--ring); outline-offset: -4px; }
+.quiz-mascot__say { left: calc(clamp(16px, 8vw, 120px) + 170px); bottom: calc(100% + 30px); z-index: 2; }
+.quiz-peek { left: clamp(16px, 8vw, 120px); }
+.quiz-peek.is-leaving .ln-peek__clip > * { animation: ln-peek-down 280ms ease-in forwards; }
+.quiz-peek.is-leaving .ln-peek__bubble { transition: opacity 200ms; opacity: 0; }
+
+@media (max-width: 767.98px) {
+  /* QuizMobile: no footer mascot at phone width */
+  .quiz-mascot { display: none; }
+  .quiz-bar { gap: 12px; padding-top: 18px; }
+  .quiz-main { padding-top: 12px; }
+  .quiz-q__title { font-size: 24px; margin-bottom: 18px; }
+  .quiz-q__opts { grid-template-columns: 1fr; gap: 10px; }
+  .quiz-opt .ln-option__code { min-height: 0; }
+  .quiz-q__keys { display: none; }
+  .quiz-foot { position: sticky; bottom: 0; background: color-mix(in srgb, var(--background) 82%, transparent); -webkit-backdrop-filter: blur(var(--blur-strong)); backdrop-filter: blur(var(--blur-strong)); }
+  .quiz-foot--ok { background: color-mix(in srgb, var(--success) 14%, var(--background)); }
+  .quiz-foot--bad { background: color-mix(in srgb, var(--destructive) 14%, var(--background)); }
+  .quiz-foot--skip { background: var(--card-solid); }
+  .quiz-fb__actions, .quiz-fb > .ln-btn { width: 100%; }
+  .quiz-fb__actions .ln-btn, .quiz-fb > .ln-btn { flex: 1; justify-content: center; }
+  .quiz-peek .ln-peek__clip { height: 96px !important; }
+  .quiz-peek .ln-m { width: 200px !important; height: 200px !important; }
+  .quiz-peek .ln-peek__bubble { max-width: 160px; font-size: 13px; margin-bottom: 20px; }
+}
+
+/* ---------- 4f · Lesson complete, 4g · Streak ---------- */
+.complete { flex: 1; display: grid; place-items: center; padding: 48px clamp(16px, 8vw, 120px) 32px; overflow: hidden; }
+.complete__stage { width: 100%; max-width: 760px; gap: 12px; text-align: center; }
+.complete__title { margin: 6px 0 0; font: 500 46px/1.05 var(--font-display); letter-spacing: -0.02em; color: var(--xp-text); }
+.complete__sub { margin: 0; font-size: 17px; color: var(--muted-foreground); }
+.complete__stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 18px; }
+.complete__icon { width: 22px; height: 22px; }
+.complete__icon--fill { fill: currentColor; stroke: none; }
+.complete__foot { margin: 14px 0 0; font-size: 13px; color: var(--muted-foreground); }
+/* click or Enter: jump to the end of the sequence */
+.complete.is-skipped *, .complete.is-skipped *::before, .complete.is-skipped *::after { animation-delay: 0s !important; animation-duration: 1ms !important; }
+.complete.is-skipped .ln-sweep, .complete.is-skipped .ln-confetti { display: none; }
+.complete.is-skipped .ln-m__body, .complete.is-skipped .ln-m__visor * { animation-duration: revert !important; }
+.streak { gap: 8px; text-align: center; }
+.streak__n { margin: 6px 0 0; font: 500 92px/1 var(--font-display); color: var(--xp-text); letter-spacing: -0.03em; }
+.streak__label { font: 500 22px var(--font-display); color: var(--xp-text); }
+.streak__card { margin-top: 18px; padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.streak__card p { margin: 0; max-width: 320px; font-size: 14px; color: var(--muted-foreground); }
+
+/* ---------- Failed twice (RetryTwice) ---------- */
+.retry { min-height: 100vh; box-sizing: border-box; padding: 56px clamp(16px, 8vw, 120px); display: flex; flex-direction: column; align-items: center; }
+.retry__col { max-width: 720px; width: 100%; display: flex; flex-direction: column; gap: 18px; }
+.retry__say { display: flex; align-items: flex-end; gap: 12px; }
+.retry__m { width: 120px; height: 120px; margin: -14px -18px -10px -14px; flex: none; }
+.retry__bubble { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 10px 14px; font-size: 14px; font-weight: 600; box-shadow: var(--shadow-sm); animation: ln-bubble 320ms var(--ease-out) 300ms both; transform-origin: 0 100%; }
+.retry__title { margin: 6px 0 6px; font: 500 34px/1.1 var(--font-display); letter-spacing: -0.02em; }
+.retry__rec { padding: 18px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; border-radius: var(--radius-xl); }
+.retry__art { width: 120px; aspect-ratio: 4 / 3; background: var(--accent); border-radius: 12px; display: grid; place-items: center; flex: none; }
+.retry__art svg { width: 74%; }
+.retry__h2 { margin: 8px 0 4px; font: 500 20px var(--font-display); }
+.retry__p { margin: 0; font-size: 14px; color: var(--muted-foreground); }
+.retry__opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.retry__opts a { padding: 16px; display: block; }
+.retry__opts b { font-size: 15px; }
+.retry__opts p { margin: 4px 0 0; font-size: 13px; color: var(--muted-foreground); }
+.retry__safe { margin: 0; font-size: 13px; color: var(--muted-foreground); display: flex; align-items: center; gap: 6px; }
+.retry__safe .ln-icon { width: 15px; height: 15px; color: var(--success); }
+
+/* ---------- User flow (FlowMap) ---------- */
+.flow { padding: 24px 0; display: flex; flex-direction: column; gap: 20px; align-items: safe center; overflow-x: auto; }
+.flow__board { position: relative; width: 1440px; height: 820px; flex: none; }
+.flow__arrow { position: absolute; overflow: visible; fill: none; stroke: #8a8378; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.flow__arrow.is-dashed { stroke-dasharray: 6 6; }
+.flow__title { position: absolute; left: 64px; top: 64px; margin: 0; font: 600 32px var(--font-display); letter-spacing: -0.02em; }
+.flow__sub { position: absolute; left: 64px; top: 108px; margin: 0; font-size: 15px; color: var(--muted-foreground); }
+.flow__box { position: absolute; width: 200px; height: 88px; box-sizing: border-box; padding: 8px; display: flex; align-items: center; justify-content: center; text-align: center; background: var(--card); border: 1px solid var(--border); border-radius: 14px; font-size: 14px;
+  transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-fast), box-shadow var(--dur-base); }
+.flow__box:hover { transform: translateY(-3px); border-color: var(--border-strong); box-shadow: var(--shadow-card-hover); }
+.flow__box.is-ok { background: var(--success-soft); border-color: var(--success); }
+.flow__box.is-bad { background: var(--destructive-soft); border-color: var(--destructive); }
+.flow__box.is-side { border: 1px dashed var(--border-strong); }
+.flow__box.is-strong { border-color: var(--border-strong); }
+.flow__diamond { position: absolute; width: 176px; height: 120px; display: flex; align-items: center; justify-content: center; background: var(--accent); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); font-size: 14px; font-weight: 600; }
+.flow__lbl { position: absolute; font-size: 13px; line-height: 16px; color: var(--muted-foreground); }
+.flow__notes { position: absolute; left: 64px; top: 680px; width: 1312px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; font-size: 13px; color: var(--muted-foreground); }
+.flow__notes b { color: var(--foreground); }
+.flow__states { width: 1312px; max-width: 100%; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px; }
+.flow__states b { margin-right: 6px; }
+.flow__states .ln-chip:hover { color: var(--foreground); border-color: var(--border-strong); }
